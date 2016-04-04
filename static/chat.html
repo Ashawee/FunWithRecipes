@@ -1,0 +1,136 @@
+<!doctype html>
+<html class="no-js" lang="en" ng-app="FunWithRecipes">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fun With Recipes</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+ 
+      <div class="top-bar">
+            <div class="row">
+                  <div class="top-bar-left">
+                        <ul class="dropdown menu" data-dropdown-menu>
+                        <li class="menu-text">Recipe Page</li>
+                        <li class="has-submenu">
+                        <a href="#">One</a>
+                        <ul class="submenu menu vertical" data-submenu>
+                        <li><a href="#">One</a></li>
+                        <li><a href="#">Two</a></li>
+                        <li><a href="#">Three</a></li>
+                        </ul>
+                        </li>
+                        <li><a href="#">Two</a></li>
+                        <li><a href="#">Three</a></li>
+                        </ul>
+                  </div>
+                  <div class="top-bar-right">
+                        <ul class="menu">
+                        <li><input type="search" placeholder="Search"></li>
+                        <li><button type="button" class="button">Search</button></li>
+                        </ul>
+                  </div>
+            </div>
+      </div>
+  <div ng-controller="ChatController">
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="large-7 columns">
+        </div>
+        <div class="large-5 columns">
+          <form ng-submit="processLogin()">
+            <input type="text" style="width: 140px; float: left; margin: 10px;" name="username" ng-model="name2" ng-change="setName2()" placeholder="Username" size="14" />
+            <input style="width: 140px; float: left; margin: 10px;" name="pass" ng-model="pw" type="password" size="14" />
+            <input type="submit" style="margin: 10px; float: left;" class="medium button" value="Login" ng-disabled="!pw"><br />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-7 medium-7 columns">
+        <div class="row">
+          <div class="large-6 medium-6 columns">
+            <div class="callout">
+              <table>
+                <tr>
+                  <td>Local Users</td>
+                </tr>
+              </table>
+               <ul class="nav nav-list well">
+                <li ng-repeat="user in roster" ng-bind="user"></li>
+              </ul>
+            </div>
+          </div>
+          <div class="large-6 medium-6 columns">
+            <div class="callout">
+              <form ng-submit="search()">
+                <input type="text" class="input-block-level" ng-model="searchtext" placeholder="Search">
+                <input type="submit" class="small button" value="Search" ng-model="loggedin">
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row controls">
+          <div class="large-12 columns">
+            <div class="callout">
+              <div id="srchresult">
+                <ul class="nav nav-list well">
+                  
+                  <!-- printing results of search -->
+                  
+                  <li ng-repeat="msg in results" ng-bind="msg.message"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row controls">
+          <div class="large-12 columns">
+            <div class="callout">
+              <form ng-submit="send()">
+                <div class="row">
+                  <div class="large-4 columns">
+                    <input type="text" class="input-block-level" ng-model="name" readonly="readonly" placeholder="Your Name">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-append large-12 columns">
+                    <div id="msgpane">
+                    </div> 
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-append large-12 columns">
+                    <textarea type="text" class="span6" ng-model="text" placeholder="Message"></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="large-12 columns">
+                    <input type="submit" class="small button" value="Send" ng-disabled="!text">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="large-12 columns">
+            <div class="callout">
+              <div class="scroll">
+                <ul class="no-bullet">
+                  <li ng-repeat="msg in messages"><span ng-bind="msg.name"></span>:&nbsp;<span ng-bind="msg.text"></span></li>&nbsp;
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.4/socket.io.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/controller.js"></script>
+  </body>
+</html>
