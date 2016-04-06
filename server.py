@@ -61,7 +61,7 @@ def new_message(message):
     userId = cur.fetchone()
 
     try:
-        insert_message = "INSERT INTO messages (message, user_id) VALUES (%s, %s);"
+        insert_message = ""
         data = (message, userId[0])
         cur.execute(insert_message, data)
     except:
@@ -81,38 +81,6 @@ def on_identify(name):
 def checking(pw):
     
     username = users[session['uuid']]['username']
-    
-    #connect to database
-    conn = connectToDB()
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
-    print 'connected to db for messages'
-        
-    check_user = "SELECT user_id FROM users WHERE username = %s AND password = crypt(%s, password)"
-    data = (username, pw)
-    cur.execute(check_user, data)
-    
-    if cur.fetchone():
-        
-        loggedin = True
-        
-        session['isLoggedIn'] = username
-        
-        updateRoster()
-        
-        messages = []
-        
-        #select new messages
-        message_select = "SELECT m.message AS text, u.username AS name FROM messages m JOIN users u ON m.user_id = u.user_id"
-        cur.execute(message_select)
-        select_messages = cur.fetchall()
-        for row in select_messages:
-            messages.append(dict(row)) 
-            
-        for message in messages:
-            emit('message', message)
-        
-        emit('isLoggedIn', username)
 
 @socketio.on('search', namespace='/chat')
 def on_search(searchtext):
@@ -121,14 +89,11 @@ def on_search(searchtext):
     #connect to database
     conn = connectToDB()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
     username = users[session['uuid']]['username']
     
     print 'connected to db for search'
-    
     search_message = "SELECT message FROM messages WHERE message LIKE %s"
     data = ('%'+ searchtext + '%',)
-    
     cur.execute(search_message, data)
     search_results = cur.fetchall()
     
