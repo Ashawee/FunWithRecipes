@@ -23,8 +23,6 @@ def connectToDB():
   except:
     print("Can't connect to database")
 
-users = {}
-isLoggedIn = ''
 
 def updateRoster():
     names = []
