@@ -7,20 +7,16 @@
     ----------------------------------------------------------------- 
 
 
-Welcome to your IRC project on Cloud9 IDE!
-
 ####Dependencies
 `sudo easy_install flask-socketio`
 
-# IRC Project 1
+# SQL Project
+
+We all have some food that we love and want to share with others. FunWithRecipes is a fun website that allows users to enter their favorite recipes and share them with the community.  Users will be able to search for recipes by name, category, or ingredient. The recipes will also be highlighted in order of ratings.
+
+To install FunWithRecipes: 
 
 
-
-### Deliverables 
-1. Login working -- only people who are logged in can chat.
-2. Messages stored in database. 
-3. When a user logs in they will see some list of previous messages. 
-4. Search. I can search for a particular term and see the results.
  
 
 
