@@ -37,15 +37,35 @@ CREATE TABLE messages (
 DROP TABLE IF EXISTS recipes;
 CREATE TABLE recipes (
   recipe_id serial NOT NULL,
+  recipe_name varchar(50),
+  difficulty varchar(35),
   recipe_created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   PRIMARY KEY (recipe_id), 
+);
+
+
+DROP TABLE IF EXISTS recipe_category;
+CREATE TABLE recipe_category (
+  recipe_category_id serial NOT NULL,
+  recipe_category_name varchar(135),
+  PRIMARY KEY (recipe_category_id)
 );
 
 DROP TABLE IF EXISTS ingredients;
 CREATE TABLE ingredients (
   ingredient_id serial NOT NULL, 
+  ingredient varchar(35),
   PRIMARY KEY (ingredient_id), 
 );
+
+
+DROP TABLE IF EXISTS steps;
+CREATE TABLE steps (
+  step_id serial NOT NULL,
+  step_name varchar(35),
+  PRIMARY KEY (step_id)
+);
+
 
 
 --
@@ -64,3 +84,6 @@ INSERT INTO messages (message, user_id) VALUES ('That space station is cool', 2)
 
 INSERT INTO users (username, password) VALUES ('ashawee', crypt('gumdrop', gen_salt('bf')));
 INSERT INTO users (username, password) VALUES ('tester', crypt('test', gen_salt('bf')));
+
+
+INSERT INTO recipes ()

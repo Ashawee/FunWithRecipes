@@ -13,7 +13,7 @@ app = Flask(__name__, static_url_path='')
 app.secret_key = os.urandom(24).encode('hex')
 
 socketio = SocketIO(app)
-
+users = []
 
 def connectToDB():
   connectionString = 'dbname=socketio user=ircclient password=X7pjgd27 host=localhost'
