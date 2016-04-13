@@ -33,20 +33,28 @@ CREATE TABLE messages (
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+--
+-- Table structure for table recipes
+--
 
 DROP TABLE IF EXISTS recipes;
 CREATE TABLE recipes (
   recipe_id serial NOT NULL,
+  user_id INTEGER NOT NULL,
+  recipe_category_id INTEGER NOT NULL,
   recipe_name varchar(50),
   difficulty varchar(35),
   recipe_created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   PRIMARY KEY (recipe_id), 
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (recipe_category_id) REFERENCES recipe_category(recipe_category_id)
 );
 
 
 DROP TABLE IF EXISTS recipe_category;
 CREATE TABLE recipe_category (
   recipe_category_id serial NOT NULL,
+  recipe_category_type varchar(35),
   recipe_category_name varchar(135),
   PRIMARY KEY (recipe_category_id)
 );
