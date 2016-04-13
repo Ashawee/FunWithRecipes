@@ -87,11 +87,9 @@ SET timezone = 'UTC';
 GRANT SELECT, INSERT, UPDATE, DELET ON ALL TABLES IN SCHEMA public TO recipes_admin;
 GRANT SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO recipes_admin;
 
-INSERT INTO messages (message, user_id) VALUES ('Hello There', 1);
-INSERT INTO messages (message, user_id) VALUES ('That space station is cool', 2);
 
 INSERT INTO users (username, password) VALUES ('ashawee', crypt('gumdrop', gen_salt('bf')));
 INSERT INTO users (username, password) VALUES ('tester', crypt('test', gen_salt('bf')));
-
+INSERT INTO users (username, password) VALUES ('Edith', crypt('rain', gen_salt('bf')));
 
 INSERT INTO recipes ()

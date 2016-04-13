@@ -6,22 +6,25 @@
 <title>Fun With Recipes</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/app.css" />
+            <script src="/js/angular.min.js"></script>
+
 </head>
 <body>
       <div class="top-bar">
             <div class="top-bar-left">
                   <ul class="menu">
                         <li class="menu-text">Fun With Recipes</li>
-                        <li><a href="/chat">Chat Room</a></li>
-                        <li><a href="/recipe">Example Recipe</a></li>
+                        <li><a href="/recipe-list">Recipe List</a></li>
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="/login">Login</a></li>
+                        
+
                   </ul>
             </div>
             <div class="top-bar-right">
                   <ul class="menu">
-                        <li><a href="#">Three</a></li>
-                        <li><a href="#">Four</a></li>
-                        <li><a href="#">Register</a></li>
-                        <li><a href="#">Search</a></li>
+                        <li><a href="/submit-recipe">Submit Recipe</a></li>
+                        <li><a href="/cha">Chat</a></li>
                   </ul>
             </div>
       </div>
@@ -31,13 +34,13 @@
                   <button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
                   <button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
                   <li class="orbit-slide is-active">
-                        <img src="/img/bulb-1239423_1920.jpg">
+                        <img src="/img/pepper.jpg">
                   </li>
                   <li class="orbit-slide">
-                        <img src="/img/cinnamon-stick-514243_1920.jpg">
+                        <img src="/img/cinnamon.jpg">
                   </li>
                   <li class="orbit-slide">
-                        <img src="/img/cooking-1013455_1920.jpg">
+                        <img src="/img/pepper.jpg">
                   </li>
 
             </ul>
@@ -47,129 +50,20 @@
             <hr>
       </div>
       <div class="row small-up-2 large-up-4">
-            <div class="column">
-                  <img class="thumbnail" src="http://placehold.it/300x400">
-                  <h5>Nulla At Nulla Justo, Eget</h5>
-                  <p>$400</p>
-                  <a href="#" class="button expanded">View</a>
+            <div class="column" ng-repeat="recipe in recipes">
+                  <h5>{{recipe.name}}</h5>
+                  <p>{{recipe.difficulty}}</p>
+                  <a href="{{recipe.url}}" class="button expanded">View</a>
             </div>
-            <div class="column">
-                  <img class="thumbnail" src="http://placehold.it/300x400">
-                  <h5>Nulla At Nulla Justo, Eget</h5>
-                  <p>$400</p>
-                  <a href="#" class="button expanded">View</a>
-            </div>
-            <div class="column">
-                  <img class="thumbnail" src="http://placehold.it/300x400">
-                  <h5>Nulla At Nulla Justo, Eget</h5>
-                  <p>$400</p>
-                  <a href="#" class="button expanded">View</a>
-            </div>
-            <div class="column">
-                  <img class="thumbnail" src="http://placehold.it/300x400">
-                  <h5>Nulla At Nulla Justo, Eget</h5>
-                  <p>$400</p>
-                  <a href="#" class="button expanded">View</a>
-            </div>
+
       </div>
-      <hr>
-      <div class="row">
-      <div class="medium-4 columns">
-      <h4>Top Products</h4>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      </div>
-      <div class="medium-4 columns">
-      <h4>Top Products</h4>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      </div>
-      <div class="medium-4 columns">
-      <h4>Top Products</h4>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      <div class="media-object">
-      <div class="media-object-section">
-      <img class="thumbnail" src="http://placehold.it/100x100">
-      </div>
-      <div class="media-object-section">
-      <h5>Nunc Eu Ullamcorper Orci</h5>
-      <p>Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque.</p>
-      </div>
-      </div>
-      </div>
+      
       </div>
             <div class="callout large secondary">
             <div class="row">
             <div class="large-4 columns">
-            <h5>Vivamus Hendrerit Arcu Sed Erat Molestie</h5>
-            <p>Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed molestie augue sit.</p>
+            <h5>Have Fun With all of your Recipes</h5>
+            <p>FunWithRecipes is soon to be your go-to place to find a fun and easy recipe for any time of day.  We are dedicated to creating an extensive repository of favorites for all to enjoy. Check back often for updates and new recipe ideas.</p>
             </div>
             </div>
 

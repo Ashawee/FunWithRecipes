@@ -33,54 +33,23 @@ def updateRoster():
     print 'broadcasting names'
     emit('roster', names, broadcast=True)
     
-@socketio.on('connect', namespace='/chat')
+@socketio.on('connect', namespace='/recipe')
 def test_connect():
     session['uuid'] = uuid.uuid1()
     print 'connected'
-        
-@socketio.on('message', namespace='/chat')
-def new_message(message):
-    
-    username = users[session['uuid']]['username']
-    messages = []
-    tmp = {'text':message, 'name':users[session['uuid']]['username']}
-    messages.append(tmp)
-    username = users[session['uuid']]['username']
 
-    emit('message', tmp, broadcast=True)
-    
-    conn = connectToDB()
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
-    print 'connected to db for inserting message'
-    
-    user_select = "SELECT user_id FROM users WHERE username = %s"
-    cur.execute(user_select, (username,))
-    userId = cur.fetchone()
-
-    try:
-        insert_message = ""
-        data = (message, userId[0])
-        cur.execute(insert_message, data)
-    except:
-        print("ERROR inserting into messages")
-        conn.rollback()
-    conn.commit()
-        
-    
-
-@socketio.on('identify', namespace='/chat')
+@socketio.on('identify', namespace='/recipe')
 def on_identify(name):
     print ('identify' + name)
     users[session['uuid']] = {'username': name}
+    
 
-
-@socketio.on('check', namespace='/chat')
+@socketio.on('check', namespace='/recipe')
 def checking(pw):
     
     username = users[session['uuid']]['username']
 
-@socketio.on('search', namespace='/chat')
+@socketio.on('search', namespace='/recipe')
 def on_search(searchtext):
 
     results = []
@@ -90,7 +59,7 @@ def on_search(searchtext):
     username = users[session['uuid']]['username']
     
     print 'connected to db for search'
-    search_message = "SELECT message FROM messages WHERE message LIKE %s"
+    search_message = ""
     data = ('%'+ searchtext + '%',)
     cur.execute(search_message, data)
     search_results = cur.fetchall()
@@ -140,6 +109,36 @@ def recipe():
     #connect to database
         
     return app.send_static_file('recipe.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    #connect to database
+        
+    return app.send_static_file('login.html')
+    
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    #connect to database
+        
+    return app.send_static_file('register.html')
+
+@app.route('/submit-recipe', methods=['GET', 'POST'])
+def submit_recipe():
+    #connect to database
+        
+    return app.send_static_file('submit_recipe.html')
+    
+@app.route('/recipe-list', methods=['GET', 'POST'])
+def recipe_list():
+    #connect to database
+        
+    return app.send_static_file('recipe_list.html')
+
+@app.route('/search-result', methods=['GET', 'POST'])
+def search_result():
+    #connect to database
+        
+    return app.send_static_file('search_result.html')
     
 @app.route('/js/<path:path>')
 def static_proxy_js(path):
