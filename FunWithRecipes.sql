@@ -7,14 +7,14 @@ CREATE ROLE admin LOGIN PASSWORD 'recip3Mast3r';
 \c FunWithRecipes;
 
 --
--- Table structure for table Users
+-- Table structure for table users
 --
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   user_id serial NOT NULL,
   username varchar(35) NOT NULL default '', 
-  password text,
+  password text, 
   PRIMARY KEY (user_id)
   
   );
@@ -27,10 +27,20 @@ DROP TABLE IF EXISTS messages;
 CREATE TABLE messages (
   message_id serial NOT NULL, 
   message_created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-  user_id INTEGER NOT NULL,
   message varchar(250),
   PRIMARY KEY (message_id),
   FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+--
+-- Table structure for table usermessages
+--
+
+DROP TABLE IF EXISTS user_messages;
+CREATE TABLE usermessages (
+  user_id integer REFERENCES users(user_id),
+  message_id integer REFERENCES messages(message_id),
+  PRIMARY KEY (user_id, message_id)
 );
 
 --
@@ -50,14 +60,42 @@ CREATE TABLE recipes (
   FOREIGN KEY (recipe_category_id) REFERENCES recipe_category(recipe_category_id)
 );
 
+--
+-- Table structure for table recipes
+--
 
-DROP TABLE IF EXISTS recipe_category;
-CREATE TABLE recipe_category (
-  recipe_category_id serial NOT NULL,
-  recipe_category_type varchar(35),
-  recipe_category_name varchar(135),
-  PRIMARY KEY (recipe_category_id)
+DROP TABLE IF EXISTS categories;
+CREATE TABLE categories (
+  category_id serial NOT NULL,
+  category varchar(135),
+  PRIMARY KEY (category_id)
 );
+
+--
+-- Table structure for table recipe_categories
+--
+DROP TABLE IF EXISTS recipe_categories;
+CREATE TABLE recipesteps (
+  recipe_id integer REFERENCES recipes(recipe_id),
+  category_id integer REFERENCES categories(category_id),
+  PRIMARY KEY (recipe_id, category_id)
+);
+
+--
+-- Table structure for table recipe_ingredients
+--
+
+DROP TABLE IF EXISTS recipe_ingredients;
+CREATE TABLE recipe_ingredients (
+  recipe_id integer REFERENCES recipes(recipe_id),
+  ingredient_id integer REFERENCES ingredients(ingredient_id),
+  PRIMARY KEY (recipe_id, step_id)
+);
+
+
+--
+-- Table structure for table ingredients
+--
 
 DROP TABLE IF EXISTS ingredients;
 CREATE TABLE ingredients (
@@ -66,19 +104,29 @@ CREATE TABLE ingredients (
   PRIMARY KEY (ingredient_id), 
 );
 
+--
+-- Table structure for table steps
+--
 
 DROP TABLE IF EXISTS steps;
 CREATE TABLE steps (
   step_id serial NOT NULL,
-  step_name varchar(35),
+  step varchar(35),
   PRIMARY KEY (step_id)
 );
 
+--
+-- Table structure for table recipe_steps
+--
+
+DROP TABLE IF EXISTS recipe_steps;
+CREATE TABLE recipe_steps (
+  recipe_id integer REFERENCES recipes(recipe_id),
+  step_id integer REFERENCES steps(step_id),
+  PRIMARY KEY (recipe_id, step_id)
+);
 
 
---
--- Table structure for table user_message
---
 
 CREATE EXTENSION pgcrypto;
 SET timezone = 'America/New_York';
