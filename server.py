@@ -126,10 +126,10 @@ def login():
         print(data)
         cur.execute("select username from users where username = (%s) AND password = crypt(%s,password)", data)
         results = cur.fetchall()
-        #if cur.rowcount>0:
-    		
-        #else:
-    		
+        if cur.rowcount>0:
+    		print("yes")
+        else:
+    		print("no")
     	
         
     return app.send_static_file('login.html')
@@ -142,7 +142,7 @@ def register():
     if request.method =='POST': 
         data = (request.form['username'],request.form['password'],)
         try:
-            cur.execute("insert into users (username,password,zipcode) values(%s,crypt(%s,gen_salt('bf')),%s)" ,data)
+            cur.execute("insert into users (username,password) values(%s,crypt(%s,gen_salt('bf')))" ,data)
         except:
             print("ERROR inserting user")
             conn.rollback()
