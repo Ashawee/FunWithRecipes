@@ -39,26 +39,47 @@
       <div class="signup-panel left-solid">
         <p class="welcome">Registered Users</p>
         <form>
-          <div class="row collapse">
-            <div class="small-2  columns">
-              <span class="prefix"><i class="fi-torso-female"></i></span>
-            </div>
-            <div class="small-10  columns">
-              <input type="text" placeholder="username">
-            </div>
-          </div>
-          <div class="row collapse">
-            <div class="small-2 columns ">
-              <span class="prefix"><i class="fi-lock"></i></span>
-            </div>
-            <div class="small-10 columns ">
-              <input type="text" placeholder="password">
-            </div>
-          </div>
-        </form>
-        <a href="#" class="button ">Log In </a>
+          <form method='POST' action="/">
+              <div class="row collapse">
+                <div class="small-2  columns">
+                  <span class="prefix"><i class="fi-torso-female"></i></span>
+                </div>
+                <div class="small-10  columns">
+                  <input type="text" name="name" placeholder="username">
+                </div>
+              </div>
+              <div class="row collapse">
+                <div class="small-2 columns ">
+                  <span class="prefix"><i class="fi-lock"></i></span>
+                </div>
+                <div class="small-10 columns ">
+                  <input type="text"  name="pw" placeholder="password">
+                </div>
+              </div>
+            </form>
+          
+            <a href="" class="button ">Log In </a>
+            <input type="submit" value="register"/>
+          </form>
       </div>
     </div>
+    
+    
+    
+    
+<section>
+  <form method="POST" action="/login">
+   <table>
+    <tr>
+      <input type="text" name="name" placeholder="username">
+      <input type="text"  name="pw" placeholder="password">
+      <input type="submit" value="register"/>
+   </table>
+  </form>      
+</section>
+    
+    
+    
 
     <div class="large-6 columns auth-plain">
     	<div class="signup-panel newusers">

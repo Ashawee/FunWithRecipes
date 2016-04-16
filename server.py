@@ -17,7 +17,7 @@ users = []
 
 def connectToDB():
   #connectionString = 'dbname=socketio user=ircclient password=X7pjgd27 host=localhost'
-  connectionString = 'dbname=funwithrecipes user=recipe_admin password=recip3Mast3r host=localhost'
+  connectionString = 'dbname=funwithrecipes user=recipes_admin password=recip3Mast3r host=localhost'
   print connectionString
   try:
     return psycopg2.connect(connectionString);
@@ -119,11 +119,12 @@ def login():
     conn = connectToDB()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     print("bb")
+    print(request.method)
     if request.method == 'POST':
         print("cc")
         data = (request.form['name'],request.form['pw'],)
-    	print(data)
-        cur.execute("select username from users where username = (%s) and password = crypt('%s',password)", data)
+        print(data)
+        cur.execute("select username from users where username = (%s) AND password = crypt(%s,password)", data)
         results = cur.fetchall()
         #if cur.rowcount>0:
     		
@@ -137,7 +138,7 @@ def login():
 def register():
     conn=connectToDB()
     cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
+    print(request.method)
     if request.method =='POST': 
         data = (request.form['username'],request.form['password'],)
         try:
