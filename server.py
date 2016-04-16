@@ -140,17 +140,17 @@ def search_result():
         
     return app.send_static_file('search_result.html')
     
-@app.route('/js/<path:path>')
+@app.route('/static/js/<path:path>')
 def static_proxy_js(path):
     # send_static_file will guess the correct MIME type
     return app.send_static_file(os.path.join('js', path))
     
-@app.route('/css/<path:path>')
+@app.route('/static/css/<path:path>')
 def static_proxy_css(path):
     # send_static_file will guess the correct MIME type
     return app.send_static_file(os.path.join('css', path))
     
-@app.route('/img/<path:path>')
+@app.route('/static/img/<path:path>')
 def static_proxy_img(path):
     # send_static_file will guess the correct MIME type
     return app.send_static_file(os.path.join('img', path))
