@@ -16,7 +16,8 @@ socketio = SocketIO(app)
 users = []
 
 def connectToDB():
-  connectionString = 'dbname=socketio user=ircclient password=X7pjgd27 host=localhost'
+  #connectionString = 'dbname=socketio user=ircclient password=X7pjgd27 host=localhost'
+  connectionString = 'dbname=funwithrecipes user=recipe_admin password=recip3Mast3r host=localhost'
   print connectionString
   try:
     return psycopg2.connect(connectionString);
@@ -113,12 +114,42 @@ def recipe():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     #connect to database
+      #connect to database
+    print("aa")
+    conn = connectToDB()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    print("bb")
+    if request.method == 'POST':
+        print("cc")
+        data = (request.form['name'],request.form['pw'],)
+    	print(data)
+        cur.execute("select username from users where username = (%s) and password = crypt('%s',password)", data)
+        results = cur.fetchall()
+        #if cur.rowcount>0:
+    		
+        #else:
+    		
+    	
         
     return app.send_static_file('login.html')
     
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    conn=connectToDB()
+    cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    
+    if request.method =='POST': 
+        data = (request.form['username'],request.form['password'],)
+        try:
+            cur.execute("insert into users (username,password,zipcode) values(%s,crypt(%s,gen_salt('bf')),%s)" ,data)
+        except:
+            print("ERROR inserting user")
+            conn.rollback()
+        conn.commit()
+    
     #connect to database
+    		
+    	
         
     return app.send_static_file('register.html')
 
