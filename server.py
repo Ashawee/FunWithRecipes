@@ -3,7 +3,7 @@ reload(sys)
 sys.setdefaultencoding("UTF8")
 import os
 import uuid
-from flask import Flask, session, request, redirect, url_for
+from flask import Flask, session, request, redirect, url_for, render_template
 from flask.ext.socketio import SocketIO, emit
 import psycopg2
 import psycopg2.extras
@@ -14,7 +14,8 @@ app.secret_key = os.urandom(24).encode('hex')
 
 socketio = SocketIO(app)
 users = []
-
+global results
+results=[]
 def connectToDB():
   #connectionString = 'dbname=socketio user=ircclient password=X7pjgd27 host=localhost'
   connectionString = 'dbname=funwithrecipes user=recipes_admin password=recip3Mast3r host=localhost'
@@ -131,7 +132,8 @@ def on_disconnect():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     #connect to database
-    
+    global results
+    #return render_template('index.html',username=results)
     return app.send_static_file('index.html')
     
 @app.route('/chat', methods=['GET', 'POST'])
@@ -152,22 +154,23 @@ def recipe():
 def login():
     #connect to database
       #connect to database
-    print("aa")
+    
     conn = connectToDB()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    print("bb")
     print(request.method)
     if request.method == 'POST':
-        print("cc")
-        data = (request.form['name'],request.form['pw'],)
+        
+        data = (request.form['username'],request.form['pw'],)
         print(data)
         cur.execute("select username from users where username = (%s) AND password = crypt(%s,password)", data)
-        results = cur.fetchall()
+        global results
+        results = cur.fetchone()
         if cur.rowcount>0:
     		print("yes")
     		session['userName'] = request.form['name']
         else:
     		print("no")
+<<<<<<< HEAD
     		
     if 'userName' in session:
         user = [session['userName']]
@@ -175,6 +178,11 @@ def login():
         user = ['']	
         
     return app.send_static_file('login.html')
+=======
+    	
+    return render_template('login.html',username=results)
+    #return app.send_static_file('login.html')
+>>>>>>> dbf88c275ad4e7421db7b232cfd6158f8cbfeb97
     
 @app.route('/register', methods=['GET', 'POST'])
 def register():
