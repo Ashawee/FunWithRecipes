@@ -38,11 +38,47 @@ def updateRoster():
 def test_connect():
     session['uuid'] = uuid.uuid1()
     print 'connected'
+    
 
+@socketio.on('load', namespace='/recipe')
+def load(name):
+    #connect to database
+    conn = connectToDB()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    
+    #select recipes for front page
+    recipe_select = "SELECT r.recipe AS name, r.created, r.difficulty, r.image, c.category FROM recipes r JOIN recipe_categories rc ON r.recipe_id = rc.recipe_id JOIN categories c on c.category_id = rc.category_id ORDER BY r.created LIMIT 5; "
+    cur.execute(recipe_select,)
+    recipe_results = cur.fetchall();
+    
+    recipes = []
+    for row in recipe_results:
+        recipes.append(dict(row))
+    
+    for recipe in recipes:
+        detail = {'name': recipe['name'], 'difficulty': recipe['difficulty'], 'image': recipe['image'], 'category': recipe['category']}
+        print detail
+        emit('recipes', detail)
+
+    #select categories for front page
+    category_select = "SELECT category from categories; "
+    cur.execute(category_select,)
+    category_results = cur.fetchall();
+    
+    categories = []
+    for row in category_results:
+        categories.append(dict(row))
+    
+    for category in categories:
+        mem = {'name': category['category'], }
+        print mem
+        emit('categories', mem)
+        
+        
 @socketio.on('identify', namespace='/recipe')
 def on_identify(name):
     print ('identify' + name)
-    users[session['uuid']] = {'username': name}
+#    users[session['uuid']] = {'username': name}
     
 
 @socketio.on('check', namespace='/recipe')
@@ -59,10 +95,10 @@ def on_search(searchtext):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     username = users[session['uuid']]['username']
     
-    print 'connected to db for search'
-    search_message = ""
+    print 'connected to db for searching recipes'
+    search_recipes = ""
     data = ('%'+ searchtext + '%',)
-    cur.execute(search_message, data)
+    cur.execute(search_recipes, data)
     search_results = cur.fetchall()
     
     #append to results dict
@@ -111,6 +147,7 @@ def recipe():
         
     return app.send_static_file('recipe.html')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     #connect to database
@@ -128,9 +165,14 @@ def login():
         results = cur.fetchall()
         if cur.rowcount>0:
     		print("yes")
+    		session['userName'] = request.form['name']
         else:
     		print("no")
-    	
+    		
+    if 'userName' in session:
+        user = [session['userName']]
+    else:
+        user = ['']	
         
     return app.send_static_file('login.html')
     

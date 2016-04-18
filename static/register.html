@@ -32,22 +32,41 @@
 <div class="medium-12 columns">
 <h3>Register</h3>
 
-<table>
-<tr>
-      <td>
-            <section>
-              <form method="POST" action="/register">
-               <table>
-                <tr>
-                  <input type="text" name="username" placeholder="username">
-                  <input type="text"  name="password" placeholder="password">
-                  <input type="submit" value="register"/>
-               </table>
-              </form>      
-            </section>
-      </td>
-</tr>
-</table>
+<div class="center row">
+  <div class="section-container tabs" data-section="tabs">
+    <section class="active">
+     <div class="content" data-section-content>
+        <p>
+          <div class="row">
+            <div class="large-6 columns">
+              <div class="signup-panel">
+                <p class="welcome">Hello, new user!</p>
+                <form method="POST" action="/register">
+                  <div class="row collapse">
+                    <div class="small-2  columns">
+                      <span class="prefix"><i class="fi-torso"></i></span>
+                    </div>
+                    <div class="small-10  columns">
+                      <input type="text" name="username" placeholder="username">
+                    </div>
+                  </div>
+                  <div class="row collapse">
+                    <div class="small-2 columns ">
+                      <span class="prefix"><i class="fi-lock"></i></span>
+                    </div>
+                    <div class="small-10 columns ">
+                      <input type="text"  name="password" placeholder="password">
+                    </div>
+                  </div>
+                  <input type="submit" class = button value="register"/>
+                </form>
+              </div>
+            </div>
+           </div></p>
+      </div>
+    </section>
+  </div>
+<div>
 </div>   
 </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.4/socket.io.js"></script>

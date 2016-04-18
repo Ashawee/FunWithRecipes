@@ -15,7 +15,7 @@
                         <ul class="dropdown menu" data-dropdown-menu>
                         <li class="menu-text">Recipe Page</li>
                         <li><a href="/register">Register</a></li>
-                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Login</a></li>
                         </ul>
                   </div>
                   <div class="top-bar-right">
@@ -27,49 +27,74 @@
             </div>
       </div>
       <br>
- 
-<div class="row" id="content">
-<div class="medium-8 columns">
-<div class="blog-post">
-<h3>Submit a Recipe</h3>
-<p>Use this form to submit your favorite recipe.</p>
-<div class="callout">
-<table>
-      <tr>
-            <td>
-                  <label for="recipe_name"></label><input type="text" 
-            </td>
-            <td>
-                  
-            </td>
-      </tr>
-</table>
-</div>
-</div>
+<div class="container" ng-controller="FunWithRecipes" data-ng-init="loadData()">
 
+  <div class="row" id="content" ng-controller="FunWithRecipes">
+    <div class="medium-8 columns">
+      <div class="blog-post">
+        <h3>Submit a Recipe</h3>
+        <p>Use this form to submit your favorite recipe.</p>
+      <div class="callout">
+        <div class="row">
+          <div class="medium-6 large-6  columns">
+            <form>
+              <div class="row column">
+                <label>Recipe name
+                  <input type="text" placeholder="Lasagna" />
+                </label>
+                <label>Difficulty
+                  <input type="text" placeholder="Difficulty" />
+                </label>
+                <label>Ingredients
+                  <select>
+                        <option>New Ingredient</option>
+                        <option>Ingredient 1</option>
+                        <option>Ingredient 2</option>
+                        <option>Ingredient 2</option>
+                  </select>
+                </label>
+                <label>Ingredient
+                  <input type="text" placeholder="Enter ingredient" />
+                </label>
+              </div>
+            </div>
+            <div class="medium-6 large-6  columns">
+            <div class="row column">
+              <label>Step1
+                <textarea type="text" placeholder="Step 1"></textarea>
+              </label>
+              <label>Step 2
+                <textarea type="text" placeholder="Step 2"></textarea>
+              </label>
+              <label>Step 3
+                <textarea type="text" placeholder="Step 3" ></textarea>
+              </label>
+              <button>Add a step</button>
+              <p><a type="submit" class="button expanded">Submit Recipe</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+    <div class="medium-3 columns" data-sticky-container>
+      <div class="sticky" data-sticky data-anchor="content">
+        <h4>Categories</h4>
+          <ul>
+             <li ng-repeat="mem in categories"></li>     
+          </ul>
+        </div>
+      </div>
+  </div>
 </div>
-<div class="medium-3 columns" data-sticky-container>
-<div class="sticky" data-sticky data-anchor="content">
-<h4>Categories</h4>
-<ul>
-<li><a href="#">Skyler</a></li>
-<li><a href="#">Jesse</a></li>
-<li><a href="#">Mike</a></li>
-<li><a href="#">Holly</a></li>
-</ul>
-<h4>Authors</h4>
-<ul>
-<li><a href="#">Skyler</a></li>
-<li><a href="#">Jesse</a></li>
-<li><a href="#">Mike</a></li>
-<li><a href="#">Holly</a></li>
-</ul>
-</div>
-</div>
-</div>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
-<script>
+    <script src="js/vendor/jquery.js"></script>
+    <script type="text/javascript" src="js/vendor/what-input.js"></script>
+    <script type="text/javascript" src="js/vendor/foundation.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.4/socket.io.js"></script>>
+    <script type="text/javascript" src="/js/angular.min.js"></script>
+    <script type="text/javascript" src="/js/controller.js"></script>
       $(document).foundation();
     </script>
 </body>

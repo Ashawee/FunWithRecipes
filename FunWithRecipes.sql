@@ -42,6 +42,7 @@ CREATE TABLE user_messages (
   PRIMARY KEY (user_id, message_id)
 );
 
+
 --
 -- Table structure for table recipes
 --
@@ -52,11 +53,22 @@ CREATE TABLE recipes (
   recipe varchar(50),
   difficulty varchar(35),
   image varchar(135), 
-  category_id integer REFERENCES categories(category_id),
+  directions varchar(300),
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   PRIMARY KEY (recipe_id)
 );
 
+--
+-- Table structure for table recipes
+--
+
+DROP TABLE IF EXISTS comments CASCADE;
+CREATE TABLE comments (
+  comment_id serial NOT NULL, 
+  comment varchar(135),
+  recipe_id integer REFERENCES recipes(recipe_id),
+  PRIMARY KEY (comment_id)
+);
 
 --
 -- Table structure for table recipes
@@ -69,6 +81,16 @@ CREATE TABLE categories (
   PRIMARY KEY (category_id)
 );
 
+--
+-- Table structure for table recipe_categories
+--
+
+DROP TABLE IF EXISTS recipe_categories CASCADE;
+CREATE TABLE recipe_categories (
+  recipe_id integer REFERENCES recipes(recipe_id),
+  category_id integer REFERENCES categories(category_id),
+  PRIMARY KEY (recipe_id, category_id)
+);
 --
 -- Table structure for table ingredients
 --
@@ -92,36 +114,12 @@ CREATE TABLE recipe_ingredients (
 );
 
 
---
--- Table structure for table steps
---
-
-DROP TABLE IF EXISTS steps CASCADE;
-CREATE TABLE steps (
-  step_id serial NOT NULL,
-  step_number integer,
-  step varchar(125),
-  PRIMARY KEY (step_id)
-);
-
---
--- Table structure for table recipe_steps
---
-
-DROP TABLE IF EXISTS recipe_steps;
-CREATE TABLE recipe_steps (
-  recipe_id integer REFERENCES recipes(recipe_id),
-  step_id integer REFERENCES steps(step_id),
-  PRIMARY KEY (recipe_id, step_id)
-);
-
-
 CREATE EXTENSION pgcrypto;
 SET timezone = 'America/New_York';
 SET timezone = 'UTC';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON users, recipes, steps, ingredients, categories TO recipes_admin;
-GRANT SELECT, UPDATE ON users_user_id_seq, recipes_recipe_id_seq, ingredients_ingredient_id_seq, categories_category_id_seq TO recipes_admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON users, recipes, messages, ingredients, categories, recipe_categories, recipe_ingredients TO recipes_admin;
+GRANT SELECT, UPDATE ON users_user_id_seq, recipes_recipe_id_seq, ingredients_ingredient_id_seq, categories_category_id_seq, messages_message_id_seq TO recipes_admin;
 
 INSERT INTO users (username, password) VALUES ('ashawee', crypt('gumdrop', gen_salt('bf')));
 INSERT INTO users (username, password) VALUES ('tester', crypt('test', gen_salt('bf')));
@@ -139,11 +137,25 @@ INSERT INTO user_messages (user_id, message_id) VALUES (2,2);
 INSERT INTO user_messages (user_id, message_id) VALUES (3,4);
 INSERT INTO user_messages (user_id, message_id) VALUES (1,5);
 
-INSERT INTO recipes (recipe, difficulty, created, image) VALUES ('Lasagna', 'Easy', NOW(), 'https:\/\/cs350-apontive.c9users.io\/static\/img\/recipe\/Lasagna.png');
+INSERT INTO recipes (recipe, difficulty, created, image, directions) VALUES ('Lasagna', 'Easy', NOW(), 'Lasagna.png',
+'Brown and drain the ground beef. Add Sauce and simmer. Cook the Noodles. Mix the Ricotta, egg, one cup of parmesan cheese in a large bowl.In large pan, layer the ingredients. Bake at 350, uncovered, for 45 minutes.');
+INSERT INTO recipes (recipe, difficulty, created, image, directions) VALUES ('Cheesecake', 'Meduim', NOW(), 'Cheescake.png',
+'Mix ingredients, bake until done');
+INSERT INTO recipes (recipe, difficulty, created, image, directions) VALUES ('Fruit Salad', 'Easy', NOW(), 'FruitSalad.png', 
+'Mix ingredients, refridgerate.');
+INSERT INTO recipes (recipe, difficulty, created, image, directions) VALUES ('Red Velvet Cake', 'Hard', NOW(), 'RedVelvetCake.png', 
+'Follow package instructions.');
+
 
 INSERT INTO categories (category) VALUES ('Beautiful Breakfast');
 INSERT INTO categories (category) VALUES ('Lovely Lunches');
 INSERT INTO categories (category) VALUES ('Dreamy Dinners');
+INSERT INTO categories (category) VALUES ('Delightful Desserts');
+
+INSERT INTO recipe_categories (recipe_id, category_id) VALUES (1, 3);
+INSERT INTO recipe_categories (recipe_id, category_id) VALUES (2, 4);
+INSERT INTO recipe_categories (recipe_id, category_id) VALUES (3, 4);
+INSERT INTO recipe_categories (recipe_id, category_id) VALUES (4, 4);
 
 INSERT INTO ingredients (ingredient) VALUES ('Shredded Mozerella Cheese');
 INSERT INTO ingredients (ingredient) VALUES ('Lasagna pasta');
@@ -153,6 +165,20 @@ INSERT INTO ingredients (ingredient) VALUES ('Salt');
 INSERT INTO ingredients (ingredient) VALUES ('Egg');
 INSERT INTO ingredients (ingredient) VALUES ('Parmesan Cheese');
 
+INSERT INTO ingredients (ingredient) VALUES ('Mixed fruit');
+INSERT INTO ingredients (ingredient) VALUES ('Apples');
+INSERT INTO ingredients (ingredient) VALUES ('Bananas');
+INSERT INTO ingredients (ingredient) VALUES ('Grapes');
+INSERT INTO ingredients (ingredient) VALUES ('Shredded Sharp Cheddar');
+INSERT INTO ingredients (ingredient) VALUES ('Cream Cheese');
+INSERT INTO ingredients (ingredient) VALUES ('Sweetened Condensed Milk');
+
+INSERT INTO ingredients (ingredient) VALUES ('Butter');
+INSERT INTO ingredients (ingredient) VALUES ('Graham Crackers');
+INSERT INTO ingredients (ingredient) VALUES ('Sugar');
+
+INSERT INTO ingredients (ingredient) VALUES ('Red food coloring');
+
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (1,1);
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (1,2);
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (1,3);
@@ -161,14 +187,18 @@ INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (1,5);
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (1,6);
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (1,7);
 
-INSERT INTO steps (step_number, step) VALUES (1, 'Brown and drain the ground beef (if using). Add Sauce and simmer');
-INSERT INTO steps (step_number, step) VALUES (2, 'Cook the Noodles according to package instructions');
-INSERT INTO steps (step_number, step) VALUES (3, 'Mix the Ricotta, egg, 1 cup of parmesan cheese in a large bowl.');
-INSERT INTO steps (step_number, step) VALUES (4, 'In large pan, layer the ingredients, making the top layer only sauce and a coating of parmesan cheese');
-INSERT INTO steps (step_number, step) VALUES (5, 'Bake at 350, uncovered, for 45 minutes.');
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (2,8);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (2,9);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (2,10);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (2,11);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (2,12);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (2,13);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (2,14);
 
-INSERT INTO recipe_steps (recipe_id, step_id) VALUES (1,1);
-INSERT INTO recipe_steps (recipe_id, step_id) VALUES (1,2);
-INSERT INTO recipe_steps (recipe_id, step_id) VALUES (1,3);
-INSERT INTO recipe_steps (recipe_id, step_id) VALUES (1,4);
-INSERT INTO recipe_steps (recipe_id, step_id) VALUES (1,5);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (3,15);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (3,16);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (3,17);
+
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (4,15);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (4,6);
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (4,18);
