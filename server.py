@@ -18,7 +18,7 @@ global results
 results=[]
 def connectToDB():
   #connectionString = 'dbname=socketio user=ircclient password=X7pjgd27 host=localhost'
-  connectionString = 'dbname=funwithrecipes user=recipes_admin password=recip3Mast3r host=localhost'
+  connectionString = 'dbname=funwithrecipes user=recipes_admin password= host=localhost'
   print connectionString
   try:
     return psycopg2.connect(connectionString);
